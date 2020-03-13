@@ -8,6 +8,12 @@ ARG DOTNET_SDK_VERSION_MINOR="2.1"
 ARG DOTNET_SDK_VERSION_PATCH="2.1.804"
 ARG DOTNET_SDK_DOWNLOAD_SHA="82b039856dadd2b47fa56a262d1a1a389132f0db037d4ee5c0872f2949c2cd447c33a978e1f532783119aa416860e03f26b840863ca3a97392a4b77f8df5bf66"
 
+ARG DOTNET3_SDK_VERSION_MINOR="3.1"
+ARG DOTNET3_SDK_VERSION_PATCH="3.1.102"
+ARG DOTNET3_SDK_DOWNLOAD_SHA="9cacdc9700468a915e6fa51a3e5539b3519dd35b13e7f9d6c4dd0077e298baac0e50ad1880181df6781ef1dc64a232e9f78ad8e4494022987d12812c4ca15f29"
+
+
+
 ARG CHINA_REGION
 
 #****************        Utilities     *********************************************
@@ -149,6 +155,18 @@ RUN set -ex \
     && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
     && rm dotnet.tar.gz \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+
+
+ENV DOTNET3_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET3_SDK_VERSION_PATCH/dotnet-sdk-$DOTNET3_SDK_VERSION_PATCH-linux-x64.tar.gz
+    
+RUN set -ex \
+    && curl -SL $DOTNET3_SDK_DOWNLOAD_URL --output dotnet.tar.gz \
+    && echo "$DOTNET3_SDK_DOWNLOAD_SHA dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /usr/share/dotnet \
+    && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
+    && rm dotnet.tar.gz \
+    && ln -sf /usr/share/dotnet/dotnet /usr/bin/dotnet
+
 
 # Add .NET Core Global Tools install folder to PATH
 ENV PATH "~/.dotnet/tools/:$PATH"
