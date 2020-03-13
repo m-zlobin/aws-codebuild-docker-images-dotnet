@@ -1,0 +1,24 @@
+version: 0.1
+
+runtimes:
+  nodejs:
+    versions:
+      10:
+        commands:
+          - echo "Installing Node.js version 10 ..."
+          - n 10.17.0
+      12:
+        commands:
+          - echo "Installing Node.js version 12 ..."
+          - n 12.13.0
+  docker:
+    versions:
+      18:
+        commands:
+          - echo "Specifying docker version in buildspec is deprecated. Using docker $DOCKER_VERSION ."
+  dotnet:
+    versions:
+      2.1:
+        commands:
+          - echo "Installing .NET version 2.1 ..."
+    
